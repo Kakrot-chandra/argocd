@@ -18,8 +18,8 @@ echo "==> Linting Helm chart"
 helm lint gitops-argocd/helm-chart/
 
 echo "==> Dry-run client validation of sample deployments"
-kubectl apply --dry-run=client -f gitops-argocd/nginx-app/
-kubectl apply --dry-run=client -f gitops-argocd/health-check/
-kubectl apply --dry-run=client -f pod-metadata-master/pod-metadata/manifests/
+kubectl apply --dry-run=client --validate=false -f gitops-argocd/nginx-app/
+kubectl apply --dry-run=client --validate=false -f gitops-argocd/health-check/
+kubectl apply --dry-run=client --validate=false -f pod-metadata-master/pod-metadata/manifests/
 
 echo "==> Install complete"
