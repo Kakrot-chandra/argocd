@@ -1,0 +1,10 @@
+{
+  "name": "ArgoCD GitOps",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "user": "ubuntu",
+  "install": "./.cursor/scripts/install.sh",
+  "start": "./.cursor/scripts/start.sh"
+}
