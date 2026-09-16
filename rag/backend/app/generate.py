@@ -55,7 +55,8 @@ def _mock_answer(question: str, chunks: list[dict[str, Any]]) -> str:
             "then ask again."
         )
     top = chunks[0]
-    supporting = chunks[1:3]
+    floor = max(0.1, top["score"] * 0.45)
+    supporting = [row for row in chunks[1:3] if row["score"] >= floor]
     lines = [
         f"Offline generator (no API key). Best match is [{top['source']}] "
         f"(similarity {top['score']:.2f}) for: {question}",
