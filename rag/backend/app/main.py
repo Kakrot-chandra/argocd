@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .config import settings
@@ -85,3 +87,18 @@ def query(body: QueryBody) -> dict:
 def reset_index() -> dict:
     store.reset()
     return store.status()
+
+
+_DIST = settings.frontend_dist if (settings.frontend_dist / "index.html").is_file() else None
+if _DIST is not None:
+    assets = _DIST / "assets"
+    if assets.is_dir():
+        app.mount("/assets", StaticFiles(directory=assets), name="assets")
+
+    @app.get("/{full_path:path}")
+    def spa(full_path: str):
+        assert _DIST is not None
+        target = (_DIST / full_path).resolve()
+        if target.is_file() and str(target).startswith(str(_DIST.resolve())):
+            return FileResponse(target)
+        return FileResponse(_DIST / "index.html")

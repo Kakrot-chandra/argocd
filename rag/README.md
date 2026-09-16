@@ -45,6 +45,15 @@ npm run dev
 
 Open [http://127.0.0.1:5173](http://127.0.0.1:5173). Click **Load sample documents**, then ask a question.
 
+Production (one process, UI + API) after `npm run build` in `frontend/`:
+
+```bash
+cd rag
+./scripts/run-cloud.sh
+```
+
+Then open [http://127.0.0.1:8080](http://127.0.0.1:8080).
+
 ### Index + query without the UI
 
 ```bash
@@ -67,6 +76,7 @@ curl -s -X POST http://127.0.0.1:8000/api/query \
 | `RAG_FORCE_MOCK` | `false` | Force offline generator even if a key exists |
 | `RAG_SAMPLE_DIR` | `backend/data/samples` | Sample markdown |
 | `RAG_INDEX_PATH` | `backend/data/index.json` | Persisted index |
+| `RAG_FRONTEND_DIST` | `rag/frontend/dist` | Built UI served by FastAPI when present |
 | `RAG_CHUNK_SIZE` / `RAG_CHUNK_OVERLAP` | `420` / `80` | Chunker |
 | `RAG_TOP_K` | `4` | Retrieved chunks |
 
@@ -74,13 +84,15 @@ Copy `rag/.env.example` when using Compose.
 
 ## Docker deploy
 
+All-in-one image: frontend production build + FastAPI on port **8080**.
+
 ```bash
 cd rag
 docker compose up --build
 ```
 
-- UI: [http://127.0.0.1:8080](http://127.0.0.1:8080)
-- API: [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health)
+- App: [http://127.0.0.1:8080](http://127.0.0.1:8080)
+- Health: [http://127.0.0.1:8080/api/health](http://127.0.0.1:8080/api/health)
 
 Optional LLM:
 

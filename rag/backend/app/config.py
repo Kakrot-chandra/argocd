@@ -25,6 +25,12 @@ class Settings:
     top_k: int = int(os.getenv("RAG_TOP_K", "4"))
     cors_origins: str = os.getenv("CORS_ORIGINS", "*")
     force_mock_generator: bool = _env_bool("RAG_FORCE_MOCK", False)
+    frontend_dist: Path = Path(
+        os.getenv(
+            "RAG_FRONTEND_DIST",
+            str(Path(__file__).resolve().parents[2] / "frontend" / "dist"),
+        )
+    )
 
     @property
     def use_openai_embeddings(self) -> bool:

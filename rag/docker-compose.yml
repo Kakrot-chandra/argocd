@@ -1,7 +1,8 @@
 services:
-  api:
+  novarag:
     build:
-      context: ./backend
+      context: .
+      dockerfile: Dockerfile
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
@@ -11,25 +12,17 @@ services:
       RAG_FORCE_MOCK: ${RAG_FORCE_MOCK:-false}
       RAG_SAMPLE_DIR: /app/data/samples
       RAG_INDEX_PATH: /var/lib/rag/index.json
+      RAG_FRONTEND_DIST: /app/frontend/dist
       CORS_ORIGINS: "*"
     volumes:
       - rag-index:/var/lib/rag
     ports:
-      - "8000:8000"
+      - "8080:8080"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/health')"]
       interval: 10s
       timeout: 3s
       retries: 8
-
-  web:
-    build:
-      context: ./frontend
-    ports:
-      - "8080:80"
-    depends_on:
-      api:
-        condition: service_healthy
 
 volumes:
   rag-index:
