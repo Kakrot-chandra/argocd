@@ -102,6 +102,19 @@ OPENAI_API_KEY=sk-... docker compose up --build
 
 The index is stored in the `rag-index` volume. Load samples from the UI (or `POST /api/ingest/samples`) after the stack is up.
 
+### Docker Desktop on Windows
+
+Use the **Containers** view (not MCP Toolkit). From PowerShell, on branch `cursor/rag-from-scratch-77b1`:
+
+```powershell
+cd path\to\argocd
+git checkout cursor/rag-from-scratch-77b1
+cd rag
+docker compose up --build
+```
+
+Open http://127.0.0.1:8080 on that PC, click **Load sample documents**, then **Run query**. Kubernetes nodes in Docker Desktop are not required for this compose path.
+
 ## API map
 
 | Method | Path | Role |
