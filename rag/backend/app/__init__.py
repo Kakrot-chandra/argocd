@@ -1,0 +1,1 @@
+"""NovaRAG backend package."""
