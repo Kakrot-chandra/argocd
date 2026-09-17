@@ -94,10 +94,10 @@ docker compose up --build
 - App: [http://127.0.0.1:8080](http://127.0.0.1:8080)
 - Health: [http://127.0.0.1:8080/api/health](http://127.0.0.1:8080/api/health)
 
-Optional LLM:
+Optional LLM: copy `rag/.env.example` to `rag/.env` and set `OPENAI_API_KEY` there (do not paste keys into chat). Compose reads that file if present:
 
 ```bash
-OPENAI_API_KEY=sk-... docker compose up --build
+docker compose --env-file .env up --build
 ```
 
 The index is stored in the `rag-index` volume. Load samples from the UI (or `POST /api/ingest/samples`) after the stack is up.
